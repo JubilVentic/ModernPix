@@ -1,5 +1,4 @@
 import { Button } from "./Button";
-import { whatsappUrl } from "@/lib/site";
 
 export function ClosingCta() {
   return (
@@ -13,9 +12,7 @@ export function ClosingCta() {
           across Mindanao.
         </p>
         <div className="mt-10">
-          <Button href={whatsappUrl()} external>
-            Book Your Date
-          </Button>
+          <Button href="/contact">Book Your Date</Button>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { site, whatsappUrl } from "@/lib/site";
+import { mailtoUrl, site } from "@/lib/site";
 
 const fieldClass =
   "w-full rounded-xl border border-brand-navy/15 bg-white px-4 py-3 text-sm text-brand-navy outline-none transition placeholder:text-brand-navy/35 focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/20";
@@ -21,7 +21,7 @@ export function ContactForm() {
     const message = String(data.get("message") ?? "").trim();
 
     const composed = [
-      `Hi Modern Pix! I'm ${firstName} ${lastName}.`,
+      `Name: ${firstName} ${lastName}`,
       email ? `Email: ${email}` : null,
       phone ? `Phone: ${phone}` : null,
       "",
@@ -30,7 +30,10 @@ export function ContactForm() {
       .filter((line) => line !== null)
       .join("\n");
 
-    window.open(whatsappUrl(composed), "_blank", "noopener,noreferrer");
+    window.location.href = mailtoUrl(
+      `Modern Pix inquiry from ${firstName} ${lastName}`,
+      composed,
+    );
     setSending(false);
   };
 
@@ -106,7 +109,7 @@ export function ContactForm() {
       </button>
 
       <p className="mt-4 text-left text-xs text-brand-navy/50">
-        Submitting opens WhatsApp to {site.phoneDisplay} with your message.
+        Submitting opens your email app to message {site.email}.
       </p>
     </form>
   );
