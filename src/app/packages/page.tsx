@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+
+export const metadata: Metadata = {
+  title: "Packages",
+  description:
+    "Explore Modern Pix Mirror Photobooth packages for weddings, birthdays, corporate events, and celebrations in Iligan and Mindanao.",
+  alternates: { canonical: "/packages" },
+};
 
 export default function PackagesPage() {
   return (

@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about Modern Pix — the first-ever Mirror Photobooth rental in Iligan and a trusted photobooth provider across Mindanao.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (

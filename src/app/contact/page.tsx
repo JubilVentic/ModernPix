@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { mailtoUrl, site, telUrl } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Contact Modern Pix Mirror Photobooth in Iligan. Call, email, or message us to book your event date across Mindanao.",
+  alternates: { canonical: "/contact" },
+};
 
 function IconWrap({ children }: { children: ReactNode }) {
   return (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 const galanoStandIn = Plus_Jakarta_Sans({
@@ -11,9 +12,61 @@ const galanoStandIn = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Pix | Mirror Photobooth in Mindanao",
-  description:
-    "The first-ever Mirror Photobooth rental in Iligan and one of Mindanao's most trusted photobooth providers for weddings, birthdays, corporate events, and special celebrations.",
+  metadataBase: new URL(site.url),
+  title: {
+    default: "Modern Pix | Mirror Photobooth in Iligan & Mindanao",
+    template: "%s | Modern Pix",
+  },
+  description: site.description,
+  keywords: [...site.keywords],
+  applicationName: site.name,
+  authors: [{ name: site.name }],
+  creator: site.name,
+  publisher: site.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_PH",
+    url: site.url,
+    siteName: `${site.name} ${site.tagline}`,
+    title: "Modern Pix | Mirror Photobooth in Iligan & Mindanao",
+    description: site.description,
+    images: [
+      {
+        url: "/images/hero-collage-v2.png",
+        width: 1024,
+        height: 652,
+        alt: "Modern Pix Mirror Photobooth collage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Modern Pix | Mirror Photobooth in Iligan & Mindanao",
+    description: site.description,
+    images: ["/images/hero-collage-v2.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +76,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${galanoStandIn.variable} h-full antialiased`}>
-      <body className="relative min-h-full flex flex-col font-sans text-brand-navy">
+      <body className="relative flex min-h-full flex-col font-sans text-brand-navy">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

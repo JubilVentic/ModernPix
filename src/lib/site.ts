@@ -1,9 +1,21 @@
 export const site = {
   name: "Modern Pix",
   tagline: "Mirror Photobooth",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://modernpix.vercel.app",
   phoneDisplay: "0991 966 8820",
   phoneTel: "+639919668820",
   email: "modernpixilg@gmail.com",
+  description:
+    "First-ever and leading Mirror Photobooth rental in Iligan and Mindanao. Premium photobooth experiences for weddings, birthdays, corporate events, and celebrations.",
+  keywords: [
+    "mirror photobooth",
+    "photobooth rental Iligan",
+    "photobooth Mindanao",
+    "wedding photobooth Philippines",
+    "enclosed photobooth",
+    "high angle photobooth",
+    "Modern Pix",
+  ],
   social: {
     facebook: "https://www.facebook.com/Modernpixmirrorphotobooth",
     instagram: "https://www.instagram.com/modernpixilgn/",
