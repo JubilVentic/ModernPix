@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
 :root {
+  --brand-magenta: #ba0272;
+  --brand-navy: #023681;
+  --brand-gradient: linear-gradient(90deg, #ba0272 0%, #023681 100%);
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #023681;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-magenta: var(--brand-magenta);
+  --color-brand-navy: var(--brand-navy);
+  --font-sans: var(--font-galano);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-galano), system-ui, sans-serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out both;
+}
+
+.animate-fade-up-delay-1 {
+  animation: fade-up 0.8s ease-out 0.12s both;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.8s ease-out 0.24s both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out both;
+}
+
+.bg-brand-gradient {
+  background-image: var(--brand-gradient);
+}
+
+.hover-brand-gradient:hover {
+  background-image: linear-gradient(90deg, #d00482 0%, #0348a8 100%);
+}
+
+.experiences-swiper {
+  perspective: 1400px;
+}
+
+/* Continuous drift — no ease pauses between slides */
+.experiences-swiper-continuous .swiper-wrapper,
+.testimonials-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.experiences-slide {
+  z-index: 1;
+  /* Keep 3D slides sharp — avoid opacity/filter (they blur transforms) */
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.experiences-slide.swiper-slide-active {
+  z-index: 3;
+}
+
+.experiences-slide.swiper-slide-prev,
+.experiences-slide.swiper-slide-next {
+  z-index: 2;
 }
