@@ -12,7 +12,7 @@ export function ClosingCta() {
           across Mindanao.
         </p>
         <div className="mt-10">
-          <Button href="/contact">Book Your Date</Button>
+          <Button href="/book">Book Your Date</Button>
         </div>
       </div>
     </section>

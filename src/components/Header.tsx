@@ -8,6 +8,7 @@ import { Button } from "./Button";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/packages", label: "Packages" },
+  { href: "/book", label: "Book" },
   { href: "/about", label: "About Us" },
 ];
 
@@ -66,8 +67,8 @@ export function Header() {
             ))}
           </nav>
 
-          <Button href="/contact" variant="nav" className="shrink-0">
-            Contact Us
+          <Button href="/book" variant="nav" className="shrink-0">
+            Book Your Date
             <span aria-hidden="true">→</span>
           </Button>
         </div>

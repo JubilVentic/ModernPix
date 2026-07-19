@@ -84,6 +84,9 @@ export function Footer() {
             <Link href="/packages" className="transition hover:text-brand-navy">
               Packages
             </Link>
+            <Link href="/book" className="transition hover:text-brand-navy">
+              Book
+            </Link>
             <Link href="/contact" className="transition hover:text-brand-navy">
               Contact
             </Link>

@@ -23,7 +23,7 @@ export function Hero() {
           birthdays, corporate events, and special celebrations.
         </p>
         <div className="animate-fade-up-delay-2 mt-10 flex flex-col items-center gap-4 sm:flex-row">
-          <Button href="/contact">Book Your Date</Button>
+          <Button href="/book">Book Your Date</Button>
           <Button href="/packages" variant="secondary">
             View Packages
           </Button>
