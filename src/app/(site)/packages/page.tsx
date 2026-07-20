@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
 import { PackagesContent } from "@/components/PackagesContent";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Packages",
+export const metadata = createPageMetadata({
+  title: "Packages & Print Layouts",
   description:
-    "Explore Modern Pix Mirror Photobooth packages, add-ons, and print layouts for weddings, birthdays, corporate events, and celebrations in Iligan and Mindanao.",
-  alternates: { canonical: "/packages" },
-};
+    "Compare Modern Pix Mirror Photobooth packages, add-ons, and 2-, 4-, and 6-image print layouts for weddings, birthdays, and events in Iligan and Mindanao.",
+  path: "/packages",
+});
 
 export default function PackagesPage() {
   return <PackagesContent />;

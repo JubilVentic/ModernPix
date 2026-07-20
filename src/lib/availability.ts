@@ -19,6 +19,9 @@ export type TimeWindow = {
 /** Statuses that hold a slot. Declined frees it again. */
 const BLOCKING_STATUSES = new Set(["new", "reviewed", "confirmed"]);
 
+/** Extra hour after each event for teardown / travel buffer. */
+export const TEAM_BUFFER_HOURS = 1;
+
 function parseDurationHours(duration: string) {
   if (duration === "5+") return 5;
   const n = Number(duration);
@@ -41,13 +44,20 @@ function formatMinutes(total: number) {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-/** Build a bookable window from date / start / duration. */
+/** Event hours + 1 hour team buffer. */
+export function blockedHoursForDuration(duration: string) {
+  const eventHours = parseDurationHours(duration);
+  if (eventHours <= 0) return 0;
+  return eventHours + TEAM_BUFFER_HOURS;
+}
+
+/** Build a blocked window from date / start / duration (includes team buffer). */
 export function bookingToWindow(
   booking: Pick<BookingDraft, "eventDate" | "startTime" | "duration">,
 ): TimeWindow | null {
   if (!booking.eventDate) return null;
 
-  const hours = parseDurationHours(booking.duration);
+  const blockedHours = blockedHoursForDuration(booking.duration);
   const startMinutes = booking.startTime
     ? parseTimeToMinutes(booking.startTime)
     : null;
@@ -63,9 +73,9 @@ export function bookingToWindow(
     };
   }
 
-  if (hours <= 0) return null;
+  if (blockedHours <= 0) return null;
 
-  const endMinutes = Math.min(startMinutes + hours * 60, 24 * 60);
+  const endMinutes = Math.min(startMinutes + blockedHours * 60, 24 * 60);
   return {
     date: booking.eventDate,
     startMinutes,
@@ -140,14 +150,11 @@ export function listBlockedWindows(bookings: BookingLike[], date?: string) {
 /** @deprecated use listBlockedWindows */
 export const listConfirmedWindows = listBlockedWindows;
 
-export function conflictMessage(
-  window: TimeWindow,
-  status?: string,
-) {
+export function conflictMessage(window: TimeWindow, status?: string) {
   const kind =
     status === "confirmed" ? "confirmed booking" : "existing booking request";
   if (window.allDay) {
     return `That date is already taken (${window.date}). Please choose another day.`;
   }
-  return `That time overlaps an ${kind} (${window.label}). Please pick another time or date.`;
+  return `That time overlaps an ${kind} (${window.label}, includes 1hr team buffer). Please pick another time or date.`;
 }

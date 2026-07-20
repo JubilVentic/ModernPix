@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { BookingForm } from "@/components/BookingForm";
+import { createPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Book Your Date",
   description:
-    "Request a Modern Pix Mirror Photobooth for your wedding, birthday, corporate event, or celebration in Iligan and across Mindanao.",
-  alternates: { canonical: "/book" },
-};
+    "Reserve a Modern Pix Mirror Photobooth for your wedding, birthday, corporate event, or celebration in Iligan and across Mindanao. Check availability and send your booking request online.",
+  path: "/book",
+});
 
 export default function BookPage() {
   return (

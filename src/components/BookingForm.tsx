@@ -81,6 +81,7 @@ export function BookingForm() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [blocked, setBlocked] = useState<BlockedSlot[]>([]);
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
 
   useEffect(() => {
     if (!draft.eventDate) {
@@ -133,11 +134,52 @@ export function BookingForm() {
     return true;
   };
 
-  const goNext = () => {
+  const checkStep2Availability = async () => {
+    const params = new URLSearchParams({
+      date: draft.eventDate,
+      startTime: draft.startTime,
+      duration: draft.duration,
+    });
+    const response = await fetch(`/api/availability?${params.toString()}`);
+    const data = (await response.json()) as {
+      available?: boolean;
+      blocked?: BlockedSlot[];
+      error?: string;
+    };
+    if (data.blocked) setBlocked(data.blocked);
+    if (!response.ok || data.available === false) {
+      setError(
+        data.error ||
+          "That time isn’t available. Please choose another time or date.",
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const goNext = async () => {
     if (!canContinue()) {
       setError("Please complete the required fields before continuing.");
       return;
     }
+
+    if (step === 2) {
+      setCheckingAvailability(true);
+      setError("");
+      try {
+        const ok = await checkStep2Availability();
+        if (!ok) {
+          setCheckingAvailability(false);
+          return;
+        }
+      } catch {
+        setError("Could not check availability. Please try again.");
+        setCheckingAvailability(false);
+        return;
+      }
+      setCheckingAvailability(false);
+    }
+
     setError("");
     setStep((s) => Math.min(5, s + 1));
   };
@@ -273,8 +315,9 @@ export function BookingForm() {
               Event details
             </h2>
             <p className="mt-2 text-sm text-brand-navy/65">
-              Tell us when and where so we can check availability. Existing
-              requests on the same time window are blocked.
+              Tell us when and where. We&apos;ll check availability here before
+              you continue — each booking also reserves +1 hour after for the
+              team.
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <label className="block text-sm font-medium text-brand-navy">
@@ -345,6 +388,9 @@ export function BookingForm() {
               <div className="mt-5 rounded-2xl border border-brand-navy/10 bg-[#f7f9fc] px-4 py-3 text-left text-sm text-brand-navy/75">
                 <p className="font-semibold text-brand-navy">
                   Unavailable times on this date
+                </p>
+                <p className="mt-1 text-xs text-brand-navy/55">
+                  Windows include the event length plus a 1-hour team buffer.
                 </p>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
                   {blocked.map((slot) => (
@@ -506,10 +552,11 @@ export function BookingForm() {
         {step < 5 ? (
           <button
             type="button"
-            onClick={goNext}
-            className="inline-flex items-center justify-center rounded-full bg-brand-gradient px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110"
+            onClick={() => void goNext()}
+            disabled={checkingAvailability}
+            className="inline-flex items-center justify-center rounded-full bg-brand-gradient px-7 py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 disabled:opacity-70"
           >
-            Continue
+            {checkingAvailability ? "Checking…" : "Continue"}
           </button>
         ) : (
           <button
